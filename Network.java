@@ -31,7 +31,7 @@ public class Network {
     public User getUser(String name) {
         //// Replace the following statement with your code
         for (int i=0; i<userCount; i++) {
-            if (users[i].getName().equals(name)) {
+            if (users[i].getName().toLowerCase().equals(name.toLowerCase())) {
                 return users[i];
             }
         } 
@@ -64,6 +64,10 @@ public class Network {
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
         //// Replace the following statement with your code
+        if (name1.toLowerCase().equals(name2.toLowerCase())) {
+            System.out.println("A user cannot follow themselves.");
+            return false;
+        }
         if (getUser(name1) == null || getUser(name2) == null) {
             System.out.println("one of the users is not part of the network");
             return false;
@@ -139,8 +143,14 @@ public class Network {
     }
 
     // Returns a textual description of all the users in this network, and who they follow.
+    @Override
     public String toString() {
-       //// Replace the following statement with your code
-       return null;
+    String result = "Network:";
+
+    for (int i = 0; i < userCount; i++) {
+        result += "\n" + users[i].toString();
+    }
+
+    return result;
     }
 }
