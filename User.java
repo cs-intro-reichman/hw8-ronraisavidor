@@ -44,19 +44,53 @@
     /** If this user follows the given name, returns true; otherwise returns false. */
     public boolean follows(String name) {
         //// Replace the following statement with your code
+        
+        for (int i=0; i<fCount; i++) {
+            if (follows[i].equals(name)) {
+                return true;
+            }
+        }
         return false;
     }
+
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
-        //// Replace the following statement with your code
-        return false;
+        if (fCount == maxfCount) {
+            System.out.println("Cannot follow " + name + ": follow list is full.");
+            return false;
+        }
+    
+        // Check if the user already follows the given name
+        if (follows(name)) {
+            System.out.println("User already follows " + name + ".");
+            return false;
+        }
+    
+        // Add the new followee
+        follows[fCount] = name;
+        fCount++;
+        System.out.println("Now following " + name + ".");
+        return true;
     }
+    
 
     /** Removes the given name from the follows list of this user. If successful, returns true.
      *  If the name is not in the list, does nothing and returns false. */
     public boolean removeFollowee(String name) {
         //// Replace the following statement with your code
+        for (int i=0; i<fCount; i++) {
+            if (follows[i].equals(name)) {
+                for (int j = i; j < fCount - 1; j++) {
+                    follows[j] = follows[j + 1]; // Shift elements left
+                }
+                follows[fCount-1]=null;
+                fCount--;
+                System.out.println("Stopped following " + name + ".");
+                return true;
+            }
+        }
+        System.out.println(name + " is not in the follow list.");
         return false;
     }
 
@@ -64,14 +98,25 @@
     /*  Notice: This is the size of the intersection of the two follows lists. */
     public int countMutual(User other) {
          //// Replace the following statement with your code
-        return 0;
+        int countM = 0;
+        for (int i=0; i<fCount; i++) {
+            for (int j=0; j<other.fCount; j++) {
+                if (follows[i].equals(other.follows[j])) {
+                    countM++;
+                    break;
+                }
+            }
+        }
+
+        return countM;
     }
 
     /** Checks is this user is a friend of the other user.
      *  (if two users follow each other, they are said to be "friends.") */
     public boolean isFriendOf(User other) {
         //// Replace the following statement with your code
-        return false;
+        return this.follows(other.name) && other.follows(this.name);
+        
     }
     /** Returns this user's name, and the names that s/he follows. */
     public String toString() {
