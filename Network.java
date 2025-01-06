@@ -64,6 +64,10 @@ public class Network {
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
         //// Replace the following statement with your code
+        if (name1 == null || name2 == null) {
+            System.out.println("Cannot add followee: user or followee name is null.");
+            return false;
+        }
         if (name1.toLowerCase().equals(name2.toLowerCase())) {
             System.out.println("A user cannot follow themselves.");
             return false;
